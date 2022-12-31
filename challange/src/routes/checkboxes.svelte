@@ -1,6 +1,6 @@
 <script lang="ts">
     export let labels: string[];
-    export let chosen: number[] = [];
+    let chosen: number = 0;
 </script>
 
 <fieldset>
@@ -8,7 +8,7 @@
 
     {#each labels as label, i}
         <span id="check">
-            <input type="checkbox" value={i} bind:group={chosen} />
+            <input type="radio" value={i} name="choice" bind:group={chosen} />
             <label for={label}>{label}</label>
         </span>
     {/each}

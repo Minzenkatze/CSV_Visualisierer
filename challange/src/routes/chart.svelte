@@ -19,18 +19,11 @@
         let mychart = new Chart(ctx, {
             type: "pie",
             data: {
-                labels: ["One", "Two", "Three"],
+                labels: ["a", "b", "c"],
                 datasets: [
                     {
                         label: "My First Dataset",
-                        data: [300, 50, 100],
-                        backgroundColor: [],
-                        hoverOffset: 4
-                    },
-                    {
-                        label: "My Second Dataset",
-                        labels: ["A", "B", "C", "D"],
-                        data: [250, 40, 30, 20],
+                        data: [200, 300, 100],
                         backgroundColor: [],
                         hoverOffset: 4
                     }

@@ -1,9 +1,11 @@
 <script lang="ts">
+    import { LinearScale } from "chart.js";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
     let selectedDelimiter: string;
     let availableDelimiters: string[] = [";", ","];
     let fileContent: string;
+    let data: Object = {};
 
     function handleChange(event: Event): void {
         const input = event.target as HTMLInputElement;
@@ -36,7 +38,18 @@
             lines[i] = lines[i].split(selectedDelimiter);
         }
         dispatch("updateLabels", lines[0]);
+        data = {};
+        for (let i = 0; i < lines[0].length; i++) {
+            for (let j = 0; j < lines.length; j++) {
+                if (!(lines[i][j] in data)) {
+                    data[lines[i][j]] = 1;
+                } else {
+                    data[lines[i][j]] += 1;
+                }
+            }
+        }
     };
+
     $: if (selectedDelimiter) {
         split_input();
     }
