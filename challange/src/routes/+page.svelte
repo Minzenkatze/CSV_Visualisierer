@@ -69,6 +69,8 @@
         }
     }
     #main-content {
+        display: flex;
+        flex-direction: column;
         margin: 5em 10em;
         padding: 5em;
         width: 50vw;
@@ -77,6 +79,5 @@
         box-shadow: 5px 5px 15px rgb(100, 100, 100);
         background-color: white;
         position: relative;
-        overflow: hidden;
     }
 </style>
