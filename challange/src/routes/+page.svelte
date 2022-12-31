@@ -30,8 +30,10 @@
         </p>
     </header>
     <div id="main-content">
+        {#if labels.length != 0}
         <Checkboxes {labels} />
         <Chart {daten} />
+        {/if}
         <Fileupload on:updateLabels={handleUpdateLabels} />
     </div>
 </section>

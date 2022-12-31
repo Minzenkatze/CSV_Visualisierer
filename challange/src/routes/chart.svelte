@@ -52,6 +52,6 @@
     afterUpdate(createChart);
 </script>
 
-<div class="chart-container" style="position: relative; height:50%; width:50%">
+<div class="chart-container" style="position: relative">
     <canvas id="myChart" />
 </div>
