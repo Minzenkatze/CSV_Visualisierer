@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { LinearScale } from "chart.js";
     import { createEventDispatcher } from "svelte";
+    import {radioSelection} from "./stores.js";
+
     const dispatch = createEventDispatcher();
     let selectedDelimiter: string;
     let availableDelimiters: string[] = [";", ","];
     let fileContent: string;
-    let data: Object = {};
+    let data: Map<any, any> = new Map();
 
     function handleChange(event: Event): void {
         const input = event.target as HTMLInputElement;
@@ -33,21 +34,29 @@
         if (!fileContent) {
             return;
         }
-        let lines = fileContent.split(/\r?\n/);
-        for (let i in lines) {
-            lines[i] = lines[i].split(selectedDelimiter);
+        let [header, ...body] = fileContent.split(/\r?\n/);
+        
+        let headerArr = header.split(selectedDelimiter);
+        dispatch("updateLabels", headerArr);
+        let bodyArr = [];
+        for (let i = 0; i < body.length; i++){
+            let newline = body[i].split(selectedDelimiter);
+            bodyArr.push(newline);
         }
-        dispatch("updateLabels", lines[0]);
-        data = {};
-        for (let i = 0; i < lines[0].length; i++) {
-            for (let j = 0; j < lines.length; j++) {
-                if (!(lines[i][j] in data)) {
-                    data[lines[i][j]] = 1;
-                } else {
-                    data[lines[i][j]] += 1;
-                }
+        console.log(bodyArr);
+        
+        if (! data.has(header[$radioSelection])){
+                data.set(header[$radioSelection], new Map());
             }
+        for (let i = 0; i < bodyArr.length; i++){
+            if (!data.get(header[$radioSelection]).has(bodyArr[$radioSelection][i])){
+                data.get(header[$radioSelection]).set(bodyArr[$radioSelection][i], 1);
+            } else {
+                data.get(header[$radioSelection]).set(bodyArr[$radioSelection][i], 1)
+            }         
         }
+        console.log(data);
+        
     };
 
     $: if (selectedDelimiter) {

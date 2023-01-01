@@ -1,9 +1,8 @@
 <script lang="ts">
     import { afterUpdate } from "svelte";
     import Chart from "chart.js/auto";
-    import type { dataset } from "./dataset";
 
-    export let daten: dataset;
+    export let daten;
 
     let createChart = () => {
         const canvas: HTMLCanvasElement = document.getElementById("myChart")!;

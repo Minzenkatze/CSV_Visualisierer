@@ -3,6 +3,7 @@
     import { createEventDispatcher } from "svelte";
     import Checkboxes from "./checkboxes.svelte";
     import Fileupload from "./fileupload.svelte";
+    import { radioSelection } from "./stores.js";
 
     let labels: string[] = [];
     const dispatch = createEventDispatcher();
@@ -32,6 +33,7 @@
     <div id="main-content">
         {#if labels.length != 0}
         <Checkboxes {labels} />
+        <p>{$radioSelection}</p>
         <Chart {daten} />
         {/if}
         <Fileupload on:updateLabels={handleUpdateLabels} />
