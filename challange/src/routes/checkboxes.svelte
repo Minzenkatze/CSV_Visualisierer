@@ -1,9 +1,8 @@
 <script lang="ts">
-    import {radioSelection} from "./stores.js";
+    import { radioSelection } from "./stores.js";
     export let labels: string[];
-    let Choice:number = 0;
+    let Choice: number = 0;
     $: radioSelection.set(Choice);
-    
 </script>
 
 <fieldset>
@@ -16,7 +15,7 @@
         </span>
     {/each}
 </fieldset>
-<p>{Choice}</p>
+
 <style>
     #check {
         display: block;
