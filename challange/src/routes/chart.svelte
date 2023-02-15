@@ -1,28 +1,45 @@
 <script lang="ts">
-    import { afterUpdate } from "svelte";
+    import { onMount } from "svelte";
+    import { daten } from "./stores.js";
+    import { radioSelection } from "./stores.js";
     import Chart from "chart.js/auto";
 
-    export let daten;
+    let ctx: CanvasRenderingContext2D | null;
+    let canvas: HTMLCanvasElement;
+    let mychart: Chart<"pie", number[], string>;
 
-    let createChart = () => {
-        const canvas: HTMLCanvasElement = document.getElementById("myChart")!;
-        const ctx = canvas.getContext("2d");
-        const availableColors = [
-            "rgb(255, 99, 132)",
-            "rgb(201, 203, 207)",
-            "rgb(255, 205, 86)",
-            "rgb(153, 102, 255)",
-            "rgb(255, 159, 64)",
-            "rgb(54, 162, 235)"
-        ];
-        let mychart = new Chart(ctx, {
+    const availableColors = [
+        "rgb(255, 99, 132)",
+        "rgb(201, 203, 207)",
+        "rgb(255, 205, 86)",
+        "rgb(153, 102, 255)",
+        "rgb(255, 159, 64)",
+        "rgb(54, 162, 235)"
+    ];
+    let size = availableColors.length;
+
+    // Läuft wenn sich entweder die Daten oder die Selektion ändern und die Daten nicht leer sind und mychart existiert
+    $: if (radioSelection && daten && mychart) {
+        mychart.data.labels = [...$daten[$radioSelection][1].keys()];
+        mychart.data.datasets[0].data = [...$daten[$radioSelection][1].values()];
+        mychart.data.datasets[0].backgroundColor = [];
+        for (let i = 0; i < mychart.data.labels.length; i++) {
+            mychart.data.datasets[0].backgroundColor.push(availableColors[i % size]);
+        }
+        mychart.update();
+        console.log($daten);
+    }
+
+    onMount((): void => {
+        ctx = canvas.getContext("2d");
+
+        mychart = new Chart(ctx, {
             type: "pie",
             data: {
-                labels: ["a", "b", "c"],
+                labels: [],
                 datasets: [
                     {
-                        label: "My First Dataset",
-                        data: [200, 300, 100],
+                        data: [],
                         backgroundColor: [],
                         hoverOffset: 4
                     }
@@ -33,17 +50,9 @@
                 maintainAspectRatio: true
             }
         });
-        mychart.data.datasets.forEach(dataset => {
-            let size = availableColors.length;
-            for (let i = 0; i < dataset.data.length; i++) {
-                dataset.backgroundColor.push(availableColors[i % size]);
-            }
-            mychart.update();
-        });
-    };
-    afterUpdate(createChart);
+    });
 </script>
 
 <div class="chart-container" style="position: relative">
-    <canvas id="myChart" />
+    <canvas bind:this={canvas} id="myChart" />
 </div>
