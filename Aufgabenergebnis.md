@@ -19,4 +19,5 @@ Name | Begründung
 ## Installation / Ausführen des Projektes
 
 Zum anschauen einfach auf den github-pages Link des Repos klicken. Ich habe eine weitere Test.csv hinzugefügt, 
+
 da im Original teilweise zu viele Kategorien existierten, welche im Diagramm teilweise nicht sichtbar sind.
