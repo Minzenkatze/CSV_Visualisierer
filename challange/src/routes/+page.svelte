@@ -1,24 +1,12 @@
 <script lang="ts">
     import Chart from "./chart.svelte";
-    import { createEventDispatcher } from "svelte";
     import Checkboxes from "./checkboxes.svelte";
     import Fileupload from "./fileupload.svelte";
-    import { radioSelection } from "./stores.js";
 
     let labels: string[] = [];
-    const dispatch = createEventDispatcher();
     function handleUpdateLabels(event) {
         labels = event.detail;
     }
-    let daten = {
-        labels: ["Red", "Blue", "Yellow"],
-        data: [
-            ["A", "C", "B"],
-            ["B", "C", "B"],
-            ["A", "A", "C"],
-            ["B", "A", "C"]
-        ]
-    };
 </script>
 
 <section>
@@ -32,9 +20,8 @@
     </header>
     <div id="main-content">
         {#if labels.length != 0}
-        <Checkboxes {labels} />
-        <p>{$radioSelection}</p>
-        <Chart {daten} />
+            <Checkboxes {labels} />
+            <Chart />
         {/if}
         <Fileupload on:updateLabels={handleUpdateLabels} />
     </div>

@@ -1,22 +1,19 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import { radioSelection } from "./stores.js";
-
+    import { radioSelection, daten } from "./stores.js";
     const dispatch = createEventDispatcher();
+    //Initialisieren einiger Variablen für den späteren gebrauch
     let selectedDelimiter: string;
-    let availableDelimiters: string[] = [";", ","];
+    let availableDelimiters: string[] = [",", ";"];
     let fileContent: string;
-    let data: Map<any, any> = new Map();
     let headerArr: string[] = [];
     let bodyArr: any[] = [];
 
     function handleChange(event: Event): void {
         const input = event.target as HTMLInputElement;
-        if (!input) {
-            return;
-        }
+        bodyArr = [];
+        radioSelection.set(0);
         let file = input.files[0];
-
         const reader: FileReader = new FileReader();
         reader.onload = function (event: any): void {
             fileContent = event.target.result;
@@ -32,30 +29,37 @@
         let [header, ...body] = fileContent.split(/\r?\n/);
 
         headerArr = header.split(selectedDelimiter);
+        // Wenn ein Eintrag fehlt wird stattdessen ein Platzhalter benutzt
+        for (let i = 0; i < headerArr.length; i++) {
+            if (!headerArr[i]) {
+                headerArr[i] = `NA_${i}`;
+            }
+        }
         dispatch("updateLabels", headerArr);
         for (let i = 0; i < body.length; i++) {
             let newline = body[i].split(selectedDelimiter);
+            for (let i = 0; i < newline.length; i++) {
+                if (!newline[i]) {
+                    newline[i] = "NA";
+                }
+            }
             bodyArr.push(newline);
         }
-        console.log(bodyArr);
-        createData();
-    };
-    const createData = () => {
-        if (!data.has(headerArr[$radioSelection])) {
-            data.set(headerArr[$radioSelection], new Map());
-            for (let i = 0; i < bodyArr.length; i++) {
-                data.get(headerArr[$radioSelection]).set(
-                    bodyArr[i][$radioSelection],
-                    data.get(headerArr[$radioSelection]).get(bodyArr[i][$radioSelection]) + 1 || 1
-                );
+        /*Aus den beiden Arrays headerArr und bodyArr soll ein gemeinsames Array werden welche für jede Spalte 
+        den Namen und die Anzahl an Kategorien zusammenzählt */
+        let combined = [];
+        for (let i = 0; i < headerArr.length; i++) {
+            combined.push([headerArr[i], new Map()]);
+            //Geht die Spalte durch und fügt entweder 1 zu jeder existierenden Kategorie hinzu falls diese existiert, oder setzt diese auf 1 falls nicht
+            for (let j = 0; j < bodyArr.length; j++) {
+                combined[i][1].set(bodyArr[j][i], combined[i][1].get(bodyArr[j][i]) + 1 || 1);
             }
+            $daten = combined;
         }
-        console.log(data);
     };
-    $: $radioSelection && createData();
+    //Läuft wenn selectedDelimiter sich ändert
     $: if (selectedDelimiter) {
-        data.clear();
-        headerArr = [];
+        radioSelection.set(0);
         bodyArr = [];
         split_input();
     }
