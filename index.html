@@ -9,13 +9,13 @@
 		integrity="sha256-+48ixHHdEyikQezynIIzVjU1eGcJqNNEhQgbvKOumAY=" crossorigin="anonymous"></script>
 
 	<meta http-equiv="content-security-policy" content="">
-		<link href="./_app/immutable/assets/_page-550668b5.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/start-fb5a4aee.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-f69a00a3.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-f730561b.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-c14f1c51.js">
-		<link rel="modulepreload" href="./_app/immutable/components/layout.svelte-6f481b91.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-5bc4ba8e.js">
+		<link href="./_app/immutable/assets/_page-3ecff016.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/start-3d1114a1.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-4e8033e3.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-be60d8a6.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-f3624481.js">
+		<link rel="modulepreload" href="./_app/immutable/components/layout.svelte-900cf252.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-54694636.js">
 		<link rel="modulepreload" href="./_app/immutable/modules/pages/_page.js-dc85b7cd.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/_page-da46b06b.js">
 </head>
@@ -24,33 +24,38 @@
 	<div style="display: contents">
 
 
-<section class="svelte-so0jat"><header class="svelte-so0jat"><h1 class="svelte-so0jat">CSV Visualisierer</h1>
+<section class="svelte-80fi6o"><header class="svelte-80fi6o"><h1 class="svelte-80fi6o">CSV Visualisierer</h1>
 
         <p>Lade hier eine CSV Datei hoch und lass dir die einzelnen Kategorien in einem
             Kreisdiagramm darstellen.
         </p></header>
-    <div id="main-content" class="svelte-so0jat">
-        <div class="container svelte-z00kvp"><label for="trennzeichenLabel">Trennzeichen:</label>
+    <div id="wrapper" class="svelte-80fi6o"><nav id="navbar"><button class="tab svelte-80fi6o" name="Diagramm" style="z-index: 2">Diagramm
+            </button>
+            <button class="tab svelte-80fi6o" name="Tabelle">Tabelle</button></nav>
+        <div id="main-content" class="svelte-80fi6o">
+            
+            <div class="container svelte-z00kvp"><label for="trennzeichenLabel">Trennzeichen:</label>
     <select><option value=",">,
             </option><option value=";">;
             </option></select>
     <input type="file" accept=".csv" class="svelte-z00kvp">
-</div></div>
+</div></div></div>
 </section>
 
 
-		<script type="module" data-sveltekit-hydrate="13l0y51">
-			import { start } from "./_app/immutable/start-fb5a4aee.js";
+		<script type="module" data-sveltekit-hydrate="174z09k">
+			import { start } from "./_app/immutable/start-3d1114a1.js";
 
 			start({
+				assets: "",
 				env: {},
-				paths: {"base":"","assets":""},
-				target: document.querySelector('[data-sveltekit-hydrate="13l0y51"]').parentNode,
-				version: "1676497197835",
+				target: document.querySelector('[data-sveltekit-hydrate="174z09k"]').parentNode,
+				version: "1676644041692",
 				hydrate: {
 					node_ids: [0, 2],
 					data: [null,null],
-					form: null
+					form: null,
+					error: null
 				}
 			});
 		</script>
