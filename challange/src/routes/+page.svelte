@@ -30,7 +30,9 @@
     </header>
     <div id="wrapper">
         <nav id="navbar">
-            <button class="tab" name="Diagramm" on:click={setTab}>Diagramm</button>
+            <button class="tab" name="Diagramm" style="z-index: 2" on:click={setTab}>
+                Diagramm
+            </button>
             <button class="tab" name="Tabelle" on:click={setTab}>Tabelle</button>
         </nav>
         <div id="main-content">
