@@ -1,31 +1,35 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import { radioSelection, daten } from "./stores.js";
+    import { radioSelection, daten, labels, tabledata } from "./stores.js";
     const dispatch = createEventDispatcher();
     //Initialisieren einiger Variablen für den späteren gebrauch
     let selectedDelimiter: string;
     let availableDelimiters: string[] = [",", ";"];
     let fileContent: string;
     let headerArr: string[] = [];
-    let bodyArr: any[] = [];
+    let bodyArr: string[] = [];
 
     function handleChange(event: Event): void {
+        // Handler für den Hochladebutton
         const input = event.target as HTMLInputElement;
         bodyArr = [];
+        //radioSelection wird auf 0 zurückgesetzt da nicht garantiert ist, dass die neue Datei die gleiche Anzahl an Kategorien hat
         radioSelection.set(0);
         let file = input.files[0];
         const reader: FileReader = new FileReader();
+        //Sobald der reader bereit ist wird die Datei verarbeitet
         reader.onload = function (event: any): void {
             fileContent = event.target.result;
             split_input();
         };
-
         reader.readAsText(file);
     }
     const split_input = () => {
+        // bricht ab falls die Datei leer ist
         if (!fileContent) {
             return;
         }
+        //Die erste Zeile ist der Header, die restlichen Zeilen die Daten
         let [header, ...body] = fileContent.split(/\r?\n/);
 
         headerArr = header.split(selectedDelimiter);
@@ -35,7 +39,7 @@
                 headerArr[i] = `NA_${i}`;
             }
         }
-        dispatch("updateLabels", headerArr);
+        $labels = headerArr;
         for (let i = 0; i < body.length; i++) {
             let newline = body[i].split(selectedDelimiter);
             for (let i = 0; i < newline.length; i++) {
@@ -45,6 +49,7 @@
             }
             bodyArr.push(newline);
         }
+        $tabledata = bodyArr;
         /*Aus den beiden Arrays headerArr und bodyArr soll ein gemeinsames Array werden welche für jede Spalte 
         den Namen und die Anzahl an Kategorien zusammenzählt */
         let combined = [];

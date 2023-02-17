@@ -2,20 +2,19 @@
     import Chart from "./chart.svelte";
     import Checkboxes from "./checkboxes.svelte";
     import Fileupload from "./fileupload.svelte";
+    import Tabelle from "./tabelle.svelte";
+    import { labels } from "./stores.js";
 
-    let labels: string[] = [];
     let currentTab: string = "Diagramm";
-    function handleUpdateLabels(event: Event) {
-        labels = event.detail;
-        console.log(labels);
-    }
+
     function setTab(event: Event) {
+        //handler für die Tabauswahl
         let button = event.target as HTMLInputElement;
-        let lasttab = document.querySelector(`[name=${currentTab}]`);
+        let lasttab: HTMLElement = document.querySelector(`[name=${currentTab}]`);
+        //schiebt das letzte Tab in den Hintergrund und das aktive Tab in den Vordergrund
         lasttab.style.zIndex = "0";
         currentTab = button.name;
         button.style.zIndex = "2";
-        console.log(currentTab);
     }
 </script>
 
@@ -36,14 +35,14 @@
             <button class="tab" name="Tabelle" on:click={setTab}>Tabelle</button>
         </nav>
         <div id="main-content">
-            {#if labels.length != 0 && currentTab == "Diagramm"}
-                <Checkboxes {labels} />
+            {#if $labels.length != 0 && currentTab == "Diagramm"}
+                <Checkboxes />
                 <Chart />
             {/if}
-            {#if labels.length != 0 && currentTab == "Tabelle"}
-                <p>Hier kommt eine Tabelle hin</p>
+            {#if $labels.length != 0 && currentTab == "Tabelle"}
+                <Tabelle />
             {/if}
-            <Fileupload on:updateLabels={handleUpdateLabels} />
+            <Fileupload />
         </div>
     </div>
 </section>

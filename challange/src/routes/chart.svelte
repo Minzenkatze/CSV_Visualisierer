@@ -1,7 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { daten } from "./stores.js";
-    import { radioSelection } from "./stores.js";
+    import { daten, radioSelection } from "./stores.js";
     import Chart from "chart.js/auto";
 
     let ctx: CanvasRenderingContext2D | null;
