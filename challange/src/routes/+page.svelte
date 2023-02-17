@@ -4,8 +4,18 @@
     import Fileupload from "./fileupload.svelte";
 
     let labels: string[] = [];
-    function handleUpdateLabels(event) {
+    let currentTab: string = "Diagramm";
+    function handleUpdateLabels(event: Event) {
         labels = event.detail;
+        console.log(labels);
+    }
+    function setTab(event: Event) {
+        let button = event.target as HTMLInputElement;
+        let lasttab = document.querySelector(`[name=${currentTab}]`);
+        lasttab.style.zIndex = "0";
+        currentTab = button.name;
+        button.style.zIndex = "2";
+        console.log(currentTab);
     }
 </script>
 
@@ -18,12 +28,21 @@
             Kreisdiagramm darstellen.
         </p>
     </header>
-    <div id="main-content">
-        {#if labels.length != 0}
-            <Checkboxes {labels} />
-            <Chart />
-        {/if}
-        <Fileupload on:updateLabels={handleUpdateLabels} />
+    <div id="wrapper">
+        <nav id="navbar">
+            <button class="tab" name="Diagramm" on:click={setTab}>Diagramm</button>
+            <button class="tab" name="Tabelle" on:click={setTab}>Tabelle</button>
+        </nav>
+        <div id="main-content">
+            {#if labels.length != 0 && currentTab == "Diagramm"}
+                <Checkboxes {labels} />
+                <Chart />
+            {/if}
+            {#if labels.length != 0 && currentTab == "Tabelle"}
+                <p>Hier kommt eine Tabelle hin</p>
+            {/if}
+            <Fileupload on:updateLabels={handleUpdateLabels} />
+        </div>
     </div>
 </section>
 
@@ -59,10 +78,14 @@
             font-weight: bold;
         }
     }
-    #main-content {
+    #wrapper {
         display: flex;
         flex-direction: column;
         margin: 5em 10em;
+    }
+    #main-content {
+        display: flex;
+        flex-direction: column;
         padding: 5em;
         width: 50vw;
         height: auto;
@@ -70,5 +93,16 @@
         box-shadow: 5px 5px 15px rgb(100, 100, 100);
         background-color: white;
         position: relative;
+    }
+    .tab {
+        position: relative;
+        border: none;
+        outline: none;
+        height: 1.5rem;
+        width: 6rem;
+        left: 1rem;
+        background-color: white;
+        border-radius: 1rem 1rem 0 0;
+        z-index: 0;
     }
 </style>
