@@ -29,11 +29,18 @@
         border-collapse: collapse;
     }
     th {
+        padding: 5px;
         background-color: rgba(193, 255, 203, 0.582);
         border: 1px solid grey;
     }
     td {
         padding: 5px;
         border: 1px solid grey;
+    }
+    #savebutton {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin: 1rem 1rem;
     }
 </style>

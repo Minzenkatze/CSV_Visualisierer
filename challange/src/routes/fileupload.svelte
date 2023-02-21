@@ -1,7 +1,5 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
     import { radioSelection, daten, labels, tabledata } from "./stores.js";
-    const dispatch = createEventDispatcher();
     //Initialisieren einiger Variablen für den späteren gebrauch
     let selectedDelimiter: string;
     let availableDelimiters: string[] = [",", ";"];
