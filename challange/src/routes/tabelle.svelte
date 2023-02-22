@@ -37,10 +37,4 @@
         padding: 5px;
         border: 1px solid grey;
     }
-    #savebutton {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        margin: 1rem 1rem;
-    }
 </style>
