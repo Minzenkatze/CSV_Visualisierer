@@ -5,7 +5,7 @@
     let availableDelimiters: string[] = [",", ";"];
     let fileContent: string;
     let headerArr: string[] = [];
-    let bodyArr: string[] = [];
+    let bodyArr: string[][] = [];
 
     function handleChange(event: Event): void {
         // Handler für den Hochladebutton
@@ -23,6 +23,7 @@
         reader.readAsText(file);
     }
     const split_input = () => {
+        let doubleQuotes: number = 0;
         // bricht ab falls die Datei leer ist
         if (!fileContent) {
             return;
@@ -39,18 +40,55 @@
         }
         $labels = headerArr;
         for (let i = 0; i < body.length; i++) {
-            let newline = body[i].split(selectedDelimiter);
-            for (let i = 0; i < newline.length; i++) {
-                if (!newline[i]) {
-                    newline[i] = "NA";
+            /*Einige der Daten sind innerhalb von Anführungszeichen eingeschlossen und gehen über mehrer Zeilen hinweg. Daher schaue ich ob ein offenes Gänsefüßchen
+            in der letzten Zeile existiert, also ob die Gesamtanzahl der Gänsefüßchen ungerade ist und füge alle Daten
+            bis zum schließenden Zeichen zum letzten Eintrag hinzu*/
+            let quoteIndex = body[i].match(/"/g);
+            let quoteOccurence = quoteIndex?.length;
+            if (doubleQuotes) {
+                if (quoteOccurence) {
+                    //Die Stelle bis zum ersten Gänsefüßchen wird an den letzten Eintrag gehängt
+                    let firstIndex = body[i].indexOf('"');
+                    console.log(body[i].slice(0, firstIndex + 1));
+                    bodyArr[bodyArr.length - 1][bodyArr[bodyArr.length - 1].length - 1] = bodyArr[
+                        bodyArr.length - 1
+                    ][bodyArr[bodyArr.length - 1].length - 1].concat(
+                        body[i].slice(0, firstIndex + 1)
+                    );
+                    //Dann wird der Rest geteilt und an die vorherige Zeile gehängt dabei muss das erste Komma jedoch übersprungen werden
+                    let newline = body[i].slice(firstIndex + 2).split(selectedDelimiter);
+                    for (let i = 0; i < newline.length; i++) {
+                        if (!newline[i]) {
+                            newline[i] = "NA";
+                        }
+                    }
+                    bodyArr[bodyArr.length - 1] = bodyArr[bodyArr.length - 1].concat(newline);
+                } else {
+                    //Wenn kein weiteres Gänsefüßchen in der Zeile aufgetaucht ist soll die gesamte Zeile an den letzten Eintrag angehängt werden
+                    bodyArr[bodyArr.length - 1][bodyArr[bodyArr.length - 1].length - 1] = bodyArr[
+                        bodyArr.length - 1
+                    ][bodyArr[bodyArr.length - 1].length - 1].concat(body[i]);
                 }
+            } else {
+                //Wenn kein Gänsefüßchen offen ist soll eine neue Zeile begonnen werden
+                let newline = body[i].split(selectedDelimiter);
+                for (let i = 0; i < newline.length; i++) {
+                    if (!newline[i]) {
+                        newline[i] = "NA";
+                    }
+                }
+                bodyArr.push(newline);
             }
-            bodyArr.push(newline);
+            doubleQuotes += quoteOccurence || 0;
+            console.log(doubleQuotes);
+            doubleQuotes %= 2;
+            console.log(doubleQuotes);
         }
+        console.log(bodyArr);
         $tabledata = bodyArr;
         /*Aus den beiden Arrays headerArr und bodyArr soll ein gemeinsames Array werden welche für jede Spalte 
         den Namen und die Anzahl an Kategorien zusammenzählt */
-        let combined = [];
+        let combined: any[][] = [];
         for (let i = 0; i < headerArr.length; i++) {
             combined.push([headerArr[i], new Map()]);
             //Geht die Spalte durch und fügt entweder 1 zu jeder existierenden Kategorie hinzu falls diese existiert, oder setzt diese auf 1 falls nicht
