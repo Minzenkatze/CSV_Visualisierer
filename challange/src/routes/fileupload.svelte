@@ -43,23 +43,27 @@
             /*Einige der Daten sind innerhalb von Anführungszeichen eingeschlossen und gehen über mehrer Zeilen hinweg. Daher schaue ich ob ein offenes Gänsefüßchen
             in der letzten Zeile existiert, also ob die Gesamtanzahl der Gänsefüßchen ungerade ist und füge alle Daten
             bis zum schließenden Zeichen zum letzten Eintrag hinzu*/
-            let quoteIndex = body[i].match(/"/g);
-            let quoteOccurence = quoteIndex?.length;
+            let stringMatches = body[i].match(/"/g);
+            let quoteOccurence = stringMatches?.length;
+            let quoteIndices = [];
+            for (let a = 0; a < body[i].length; a++) {
+                if (body[i][a] === '"') {
+                    quoteIndices.push(a);
+                }
+            }
             if (doubleQuotes) {
                 if (quoteOccurence) {
                     //Die Stelle bis zum ersten Gänsefüßchen wird an den letzten Eintrag gehängt
-                    let firstIndex = body[i].indexOf('"');
-                    console.log(body[i].slice(0, firstIndex + 1));
                     bodyArr[bodyArr.length - 1][bodyArr[bodyArr.length - 1].length - 1] = bodyArr[
                         bodyArr.length - 1
                     ][bodyArr[bodyArr.length - 1].length - 1].concat(
-                        body[i].slice(0, firstIndex + 1)
+                        body[i].slice(0, quoteIndices[0] + 1)
                     );
                     //Dann wird der Rest geteilt und an die vorherige Zeile gehängt dabei muss das erste Komma jedoch übersprungen werden
-                    let newline = body[i].slice(firstIndex + 2).split(selectedDelimiter);
-                    for (let i = 0; i < newline.length; i++) {
-                        if (!newline[i]) {
-                            newline[i] = "NA";
+                    let newline = body[i].slice(quoteIndices[0] + 2).split(selectedDelimiter);
+                    for (let j = 0; j < newline.length; j++) {
+                        if (!newline[j]) {
+                            newline[j] = "NA";
                         }
                     }
                     bodyArr[bodyArr.length - 1] = bodyArr[bodyArr.length - 1].concat(newline);
@@ -71,6 +75,13 @@
                 }
             } else {
                 //Wenn kein Gänsefüßchen offen ist soll eine neue Zeile begonnen werden
+                if (quoteOccurence) {
+                    /*Wenn Gänsefüßchen vorhanden sind gehören diese immer zusammen, auch wenn sie das Trennzeichen enthalten,
+                    deswegen füge ich den Teil zwischen zwei Gänsefüßchen als Block ein, das letzte einzelne, falls vorhanden, ignoriere ich*/
+                    for (let j = 0; j < Math.floor(quoteOccurence / 2); j++) {
+                        //Not implemented
+                    }
+                }
                 let newline = body[i].split(selectedDelimiter);
                 for (let i = 0; i < newline.length; i++) {
                     if (!newline[i]) {
@@ -80,9 +91,7 @@
                 bodyArr.push(newline);
             }
             doubleQuotes += quoteOccurence || 0;
-            console.log(doubleQuotes);
             doubleQuotes %= 2;
-            console.log(doubleQuotes);
         }
         console.log(bodyArr);
         $tabledata = bodyArr;
