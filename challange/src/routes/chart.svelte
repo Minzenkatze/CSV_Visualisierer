@@ -19,6 +19,7 @@
 
     // Läuft wenn sich entweder die Daten oder die Selektion ändern und die Daten nicht leer sind und mychart existiert
     $: if (radioSelection && daten && mychart) {
+        console.log("Chart");
         mychart.data.labels = [...$daten[$radioSelection][1].keys()];
         mychart.data.datasets[0].data = [...$daten[$radioSelection][1].values()];
         mychart.data.datasets[0].backgroundColor = [];
@@ -52,6 +53,6 @@
     });
 </script>
 
-<div class="chart-container" style="position: relative">
+<div class="chart-container">
     <canvas bind:this={canvas} id="myChart" />
 </div>
