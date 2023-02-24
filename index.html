@@ -8,13 +8,13 @@
 
 
 	<meta http-equiv="content-security-policy" content="">
-		<link href="./_app/immutable/assets/_page-879e6bdf.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/start-79bda3be.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-b67d9e66.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-a131768a.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-8393c8a2.js">
-		<link rel="modulepreload" href="./_app/immutable/components/layout.svelte-ba63ee96.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-7fea0aaf.js">
+		<link href="./_app/immutable/assets/_page-c205185d.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/start-e88f3cc4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-a106f2c0.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-e0e9f16b.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index-da10fe21.js">
+		<link rel="modulepreload" href="./_app/immutable/components/layout.svelte-1b21818d.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-9cbcf18f.js">
 		<link rel="modulepreload" href="./_app/immutable/modules/pages/_page.js-dc85b7cd.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/_page-da46b06b.js">
 </head>
@@ -23,33 +23,37 @@
 	<div style="display: contents">
 
 
-<section class="svelte-80fi6o"><header class="svelte-80fi6o"><h1 class="svelte-80fi6o">CSV Visualisierer</h1>
+<section class="svelte-1f42fy8"><header class="svelte-1f42fy8"><h1 class="svelte-1f42fy8">CSV Visualisierer</h1>
 
         <p>Lade hier eine CSV Datei hoch und lass dir die einzelnen Kategorien in einem
-            Kreisdiagramm darstellen.
+            Kreisdiagramm darstellen oder bearbeite sie in der Tabellenansicht.
         </p></header>
-    <div id="wrapper" class="svelte-80fi6o"><nav id="navbar"><button class="tab svelte-80fi6o" name="Diagramm" style="z-index: 2">Diagramm
+    <div id="wrapper" class="svelte-1f42fy8"><nav id="navbar"><button class="tab svelte-1f42fy8" name="Diagramm" style="z-index: 2">Diagramm
             </button>
-            <button class="tab svelte-80fi6o" name="Tabelle">Tabelle</button></nav>
-        <div id="main-content" class="svelte-80fi6o">
-            
-            <div class="container svelte-z00kvp"><label for="trennzeichenLabel">Trennzeichen:</label>
-    <select><option value=",">,
+            <button class="tab svelte-1f42fy8" name="Tabelle">Tabelle</button></nav>
+        <div id="main-card" class="svelte-1f42fy8"><div id="main-content" class="svelte-1f42fy8">
+                </div>
+            <div class="container svelte-1wxybn9"><div class="linker-button svelte-1wxybn9">
+        <input type="number" min="1" max="50" placeholder="Spalten" class="input-dimension svelte-1wxybn9" id="spalten" value="0">
+        <input type="number" min="1" max="1000" placeholder="Reihen" class="input-dimension svelte-1wxybn9" id="reihen" value="0">
+        <button>Neue Tabelle</button></div>
+    <div class="rechter-button svelte-1wxybn9"><label for="trennzeichen" style="margin-right: 0.5rem">Trennzeichen:</label>
+    <select id="trennzeichen"><option value=",">,
             </option><option value=";">;
-            </option></select>
-    <input type="file" accept=".csv" class="svelte-z00kvp">
+            </option></select> 
+    <input id="fileupload" type="file" accept=".csv" class="svelte-1wxybn9"></div>
 </div></div></div>
 </section>
 
 
-		<script type="module" data-sveltekit-hydrate="174z09k">
-			import { start } from "./_app/immutable/start-79bda3be.js";
+		<script type="module" data-sveltekit-hydrate="1bcnamk">
+			import { start } from "./_app/immutable/start-e88f3cc4.js";
 
 			start({
 				assets: "",
 				env: {},
-				target: document.querySelector('[data-sveltekit-hydrate="174z09k"]').parentNode,
-				version: "1677241028830",
+				target: document.querySelector('[data-sveltekit-hydrate="1bcnamk"]').parentNode,
+				version: "1677273816363",
 				hydrate: {
 					node_ids: [0, 2],
 					data: [null,null],
