@@ -1,9 +1,14 @@
 <script lang="ts">
     import { radioSelection, daten, labels, tabledata, selectedDelimiter } from "./stores.js";
     import { parse } from 'csv-parse/browser/esm/sync';
+    import {saveAs} from "file-saver";
+    import {stringify} from 'csv-stringify/browser/esm/sync';
     //Initialisieren einiger Variablen für den späteren gebrauch
     let availableDelimiters: string[] = [",", ";"];
     let fileContent: string;
+    //Variablen für das erstellen der leeren Tabelle
+    let rows: number = 0;
+    let columns: number = 0;
 
 
     function handleChange(event: Event): void {
@@ -47,30 +52,73 @@
     }
     $: if ($labels || $tabledata){
         combineData();
-        console.log($daten);
     }
+    const saveData = () => {
+        //Speichere die Daten
+        const output = stringify([$labels, ...$tabledata], {delimiter: $selectedDelimiter});
+        let blob = new Blob([output], {type: "text/plain;charset=utf-8"});
+        saveAs (blob, "visualisierer.csv");
+    }
+    const createNewTable = () => {
+        // Erstellen einer neuen leeren Tabelle mit gewünschten Dimensionen
+        if (columns < 0 || rows < 0 ){
+            return;
+        }
+        let newTable = [];
+        for (let i = 0; i < rows + 1; i++){
+            let line = [];
+            for (let j = 0; j < columns; j++){
+                line.push("");
+            }
+            newTable.push(line);
+        }
+        [$labels, ...$tabledata] = newTable;
+    }
+    
 </script>
 
 <div class="container">
-    <label for="trennzeichenLabel">Trennzeichen:</label>
-    <select bind:value={$selectedDelimiter}>
+    {#if $daten.length > 0}
+    <button class="linker-button" on:click={saveData}>Speichern</button>
+    {:else}
+    <div class="linker-button">
+        <!-- noch ohne Inputvalidation -->
+        <input bind:value={columns} type="number" min="1" max="50" placeholder="Spalten" class=input-dimension id="spalten">
+        <input bind:value={rows} type="number" min="1" max="1000" placeholder="Reihen" class=input-dimension id="reihen">
+        <button on:click={createNewTable}>Neue Tabelle</button>
+    </div>
+    {/if}
+    <div class="rechter-button">
+    <label for="trennzeichen" style="margin-right: 0.5rem">Trennzeichen:</label>
+    <select id="trennzeichen" bind:value={$selectedDelimiter}>
         {#each availableDelimiters as delimiter}
             <option value={delimiter}>
                 {delimiter}
             </option>
         {/each}
-    </select>
-    <input type="file" accept=".csv" on:change={handleChange} />
+    </select> 
+    <input id="fileupload" type="file" accept=".csv" on:change={handleChange} />
+    </div>
 </div>
 
 <style lang="scss">
     .container {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        margin: 1rem 1rem;
-        input {
-            padding-left: 1rem;
-        }
+        display: flex;
+    }
+    .linker-button {
+        margin:0.5rem;
+        justify-content: right;
+    }
+    .rechter-button {
+        margin:0.5rem;
+        display:flex;
+        flex-grow: 1;
+        justify-content: end;
+    }
+    #fileupload {
+        padding-left: 1rem;
+    }
+    .input-dimension{
+        width: 4rem;
     }
 </style>

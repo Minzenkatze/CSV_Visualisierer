@@ -54,3 +54,9 @@
 <div class="chart-container">
     <canvas bind:this={canvas} id="myChart" />
 </div>
+
+<style>
+    .chart-container{
+        max-width: 100%;
+    }
+</style>

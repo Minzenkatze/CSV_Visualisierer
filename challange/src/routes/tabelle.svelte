@@ -1,17 +1,11 @@
 <script lang="ts">
     import { labels, tabledata, selectedDelimiter } from "./stores.js";
-    import {saveAs} from "file-saver";
-    import {stringify} from 'csv-stringify/browser/esm/sync';
+
     const handleDataChange =  (e, i: number, j: number) => {
         $tabledata[i][j] = e.target.value;
     }
     const handleLabelChange = (e, i: number) => {
         $labels[i] = e.target.value;
-    }
-    const saveData = () => {
-        const output = stringify([$labels, ...$tabledata], {delimiter: $selectedDelimiter});
-        let blob = new Blob([output], {type: "text/plain;charset=utf-8"});
-        saveAs (blob, "visualisierer.csv");
     }
 </script>
 
@@ -30,7 +24,6 @@
             </tr>
         {/each}
     </table>
-    <button id="savebutton" on:click={saveData}>Speichern</button>
 </div>
 
 <style lang="scss">
@@ -60,11 +53,5 @@
     #Kategorien {
         font-weight: bold;
         background-color: rgba(193, 255, 203);
-    }
-    #savebutton {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        margin: 1rem 1rem;
     }
 </style>

@@ -24,7 +24,7 @@
 
         <p>
             Lade hier eine CSV Datei hoch und lass dir die einzelnen Kategorien in einem
-            Kreisdiagramm darstellen.
+            Kreisdiagramm darstellen oder bearbeite sie in der Tabellenansicht.
         </p>
     </header>
     <div id="wrapper">
@@ -34,14 +34,16 @@
             </button>
             <button class="tab" name="Tabelle" on:click={setTab}>Tabelle</button>
         </nav>
-        <div id="main-content">
-            {#if $labels.length != 0 && currentTab == "Diagramm"}
-                <Checkboxes />
-                <Chart />
-            {/if}
-            {#if $labels.length != 0 && currentTab == "Tabelle"}
-                <Tabelle />
-            {/if}
+        <div id="main-card">
+            <div id="main-content">
+                {#if $labels.length != 0 && currentTab == "Diagramm"}
+                    <Checkboxes />
+                    <Chart />
+                {/if}
+                {#if $labels.length != 0 && currentTab == "Tabelle"}
+                    <Tabelle />
+                {/if}
+            </div>
             <Fileupload />
         </div>
     </div>
@@ -68,7 +70,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 50vw;
+        width: 60vw;
         margin: 0.5em 1em;
         padding: 1em;
         border-radius: 1rem;
@@ -84,16 +86,18 @@
         flex-direction: column;
         margin: 5em 10em;
     }
-    #main-content {
+    #main-card {
         display: flex;
         flex-direction: column;
-        padding: 5em;
-        width: 50vw;
+        width: 60vw;
         height: auto;
         border-radius: 1rem;
         box-shadow: 5px 5px 15px rgb(100, 100, 100);
         background-color: white;
         position: relative;
+    }
+    #main-content {
+        padding: 4rem;
     }
     .tab {
         position: relative;
