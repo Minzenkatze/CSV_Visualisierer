@@ -26,7 +26,6 @@
             mychart.data.datasets[0].backgroundColor.push(availableColors[i % size]);
         }
         mychart.update();
-        console.log($daten);
     }
 
     onMount((): void => {
@@ -52,6 +51,6 @@
     });
 </script>
 
-<div class="chart-container" style="position: relative">
+<div class="chart-container">
     <canvas bind:this={canvas} id="myChart" />
 </div>
