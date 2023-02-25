@@ -7,8 +7,8 @@
     let availableDelimiters: string[] = [",", ";"];
     let fileContent: string;
     //Variablen für das erstellen der leeren Tabelle
-    let rows: number = 0;
-    let columns: number = 0;
+    let rows: number;
+    let columns: number;
 
 
     function handleChange(event: Event): void {
@@ -74,6 +74,17 @@
         }
         [$labels, ...$tabledata] = newTable;
     }
+    const validate = () => {
+        //Überprüft ob die Eingabe beider Inputs valide ist. Wenn nicht, wird der Button deaktiviert.
+        let tabellenbutton = document.getElementById("neue-tabelle-button") as HTMLInputElement;
+        let columnfield = document.getElementById("spalten") as HTMLInputElement;
+        let rowfield = document.getElementById("reihen") as HTMLInputElement;
+        if (columnfield.checkValidity() && columnfield.value !== "" && rowfield.checkValidity() && rowfield.value !== ""){
+            tabellenbutton.disabled = false;
+        } else {
+            tabellenbutton.disabled = true;
+        }
+    }
     
 </script>
 
@@ -82,10 +93,9 @@
     <button class="linker-button" on:click={saveData}>Speichern</button>
     {:else}
     <div class="linker-button">
-        <!-- noch ohne Inputvalidation -->
-        <input bind:value={columns} type="number" min="1" max="50" placeholder="Spalten" class=input-dimension id="spalten">
-        <input bind:value={rows} type="number" min="1" max="1000" placeholder="Reihen" class=input-dimension id="reihen">
-        <button on:click={createNewTable}>Neue Tabelle</button>
+        <input class=input-dimension id="spalten" on:input={validate} bind:value={columns} type="number" min="1" max="50" placeholder="Spalten">
+        <input class=input-dimension id="reihen" on:input={validate} bind:value={rows} type="number" min="1" max="1000" placeholder="Reihen">
+        <button id="neue-tabelle-button" on:click={createNewTable} disabled>Neue Tabelle</button>
     </div>
     {/if}
     <div class="rechter-button">
@@ -120,5 +130,8 @@
     }
     .input-dimension{
         width: 4rem;
+        &:invalid{
+            color: red;
+        }
     }
 </style>

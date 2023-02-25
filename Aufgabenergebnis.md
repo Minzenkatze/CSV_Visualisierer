@@ -22,7 +22,6 @@ Name | Begründung
 ## Installation / Ausführen des Projektes
 
 Zum anschauen einfach auf den github-pages Link des Repos klicken. Ich habe eine weitere Test.csv hinzugefügt, 
-
 da im Original teilweise zu viele Kategorien existierten, welche im Diagramm teilweise nicht sichtbar sind.
 
-Mein Quellcode ist im Ordner challange/src/routes des master branch zu finden, der Rest sind Konfigurationsdateien. Im gh-pages branch findet man den build.
+Mein Quellcode ist im Ordner challange/src/routes des master Branches zu finden, der Rest sind Konfigurationsdateien. Im gh-pages Branch findet man den Build.
